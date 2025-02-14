@@ -2,8 +2,11 @@ package com.app.order_service.controllers;
 
 import com.app.order_service.dtos.OrderRequestDto;
 import com.app.order_service.services.OrderServices;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +19,11 @@ public class OrdersController {
     private final OrderServices orderServices;
 
     @GetMapping("/helloOrders")
-    public String helloFromOrders()
+    public String helloFromOrders(@RequestHeader("X-user-Id") Long userId)
     {
-        return "Hello from Orders!";
+        //String userID = request.getHeader("X-user-Id");
+        System.out.println(userId);
+        return "Hello from Orders!..... You are calling from id: "+userId;
     }
 
     @GetMapping

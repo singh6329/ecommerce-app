@@ -16,8 +16,9 @@ public class ShippingService {
     private final ModelMapper modelMapper;
 
     public ShippingDto shipOrder(ShippingDto shippingDto) {
-        Shipping shipping = modelMapper.map(shippingDto, Shipping.class);
-        shipping.setShippingStatus(ShippingStatus.DISPATCHED);
+        Shipping shipping = shippingRepository.findByOrderId(shippingDto.getOrderId())
+                                    .orElse(modelMapper.map(shippingDto, Shipping.class));
+            shipping.setShippingStatus(ShippingStatus.DISPATCHED);
         shipping.setCourierService(CourierService.DHL);
         Shipping savedShipping = shippingRepository.save(shipping);
         return modelMapper.map(savedShipping,ShippingDto.class);
